@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💘</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  font-family: 'Comic Sans MS', cursive;
+}
+
+.container {
+  text-align: center;
+  background: rgba(255,255,255,0.9);
+  padding: 40px;
+  border-radius: 25px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+h1 {
+  color: #e6005c;
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+}
+
+.signature {
+  margin-top: 25px;
+  font-size: 1.1rem;
+  color: #ff4d6d;
+}
+
+.buttons {
+  position: relative;
+  height: 120px;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  position: absolute;
+  transition: all 0.2s ease;
+}
+
+#yesBtn {
+  background: #ff4d6d;
+  color: white;
+  left: 50%;
+  transform: translateX(-120%);
+}
+
+#noBtn {
+  background: #ddd;
+  color: #555;
+  left: 50%;
+  transform: translateX(20%);
+}
+
+.heart {
+  position: absolute;
+  bottom: -20px;
+  animation: floatUp linear infinite;
+}
+
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes floatUp {
+  to { transform: translateY(-100vh); opacity: 0; }
+}
+
+@keyframes confettiFall {
+  to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Will you be my Valentine, Tasniem? 💕</h1>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 😢</button>
+  </div>
+
+  <div class="signature">From ❤️ Taqweem</div>
+</div>
+
+<audio id="noSound">
+  <source src="https://www.soundjay.com/buttons/sounds/button-16.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const sound = document.getElementById("noSound");
+
+let scale = 1;
+
+function moveNo() {
+  sound.currentTime = 0;
+  sound.play();
+
+  const x = Math.random() * 300 - 150;
+  const y = Math.random() * 150 - 75;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+  scale += 0.15;
+  yesBtn.style.transform = `translateX(-120%) scale(${scale})`;
+}
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+yesBtn.onclick = () => {
+  explodeHearts();
+  confetti();
+
+  setTimeout(() => {
+    document.body.innerHTML = `
+      <div style="
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        background:linear-gradient(135deg,#ff758c,#ff7eb3);
+        font-family:'Comic Sans MS', cursive;
+      ">
+        <h1 style="color:white;font-size:3rem;">
+          Yayyy!! 💘😍<br>
+          Tasniem is my Valentine 💕<br>
+          <span style="font-size:1.8rem;">From ❤️ Taqweem</span>
+        </h1>
+      </div>
+    `;
+  }, 1500);
+};
+
+// Floating hearts (background)
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "❤️";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.fontSize = Math.random() * 20 + 15 + "px";
+  h.style.animationDuration = Math.random() * 3 + 3 + "s";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 6000);
+}, 300);
+
+// Heart explosion
+function explodeHearts() {
+  for (let i = 0; i < 30; i++) {
+    const h = document.createElement("div");
+    h.innerText = "💖";
+    h.style.position = "fixed";
+    h.style.left = "50%";
+    h.style.top = "50%";
+    h.style.fontSize = "24px";
+    h.style.transform = `translate(${Math.random()*300-150}px, ${Math.random()*300-150}px)`;
+    h.style.transition = "all 1.2s ease-out";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 1200);
+  }
+}
+
+// Confetti
+function confetti() {
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.top = "-10px";
+    c.style.backgroundColor = `hsl(${Math.random()*360},100%,70%)`;
+    c.style.animationDuration = Math.random() * 2 + 2 + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }
+}
+</script>
+
+</body>
+</html>
